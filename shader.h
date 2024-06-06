@@ -120,7 +120,7 @@ struct phong_texture_shader : public Shader {
 		Vec3f ks(0.7937, 0.7937, 0.7937);
 		Vec3f Ia(10, 10, 10);
 		Vec3f I(500, 500, 500);
-		int p = 500;
+		int p = 5000000000000;
 
 		Vec3f l = (payload.light - payload.target).normalize();
 		Vec3f vw = (payload.camera - payload.target).normalize();
@@ -130,7 +130,7 @@ struct phong_texture_shader : public Shader {
 
 		Vec3f ambient = ka * Ia;
 		Vec3f diffuse = I / (r * r) * std::max(0.f, dot(nn, l)) * kd;
-		Vec3f specular = I / (r * r) * std::pow(std::max(0.f, dot(nn, h)), p);
+		Vec3f specular = I / (r * r) * std::pow(std::max(0.f, dot(nn, h)), p) * ks;
 
 		color = ambient + diffuse + specular;
 
@@ -193,7 +193,7 @@ struct bump_shader : public Shader {
 		Vec3f ks(0.7937, 0.7937, 0.7937);
 		Vec3f Ia(10, 10, 10);
 		Vec3f I(500, 500, 500);
-		int p = 150;
+		int p = 500;
 
 		Vec3f l = (payload.light - payload.target).normalize();
 		Vec3f vw = (payload.camera - payload.target).normalize();
@@ -202,7 +202,7 @@ struct bump_shader : public Shader {
 
 		Vec3f ambient = ka * Ia;
 		Vec3f diffuse = I / (r * r) * std::max(0.f, dot(nl, l)) * kd;
-		Vec3f specular = I / (r * r) * std::pow(std::max(0.f, dot(nl, h)), p);
+		Vec3f specular = I / (r * r) * std::pow(std::max(0.f, dot(nl, h)), p) * ks;
 
 		// Vec3f color = (color + Vec3f(1, 1, 1)) / 2.f * tex_color * 255.f;
 		Vec3f color = ambient + diffuse + specular;

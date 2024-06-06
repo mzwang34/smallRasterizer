@@ -10,8 +10,8 @@
 #include "pbrShader.h"
 #include "shadowShader.h"
 
-const int w = 1024;
-const int h = 1024;
+const int w = 512;
+const int h = 512;
 
 int clamp(float x) {
 	x = x < 0.f? 0.f : x > 255.f? 255.f : x;
@@ -19,9 +19,9 @@ int clamp(float x) {
 }
 
 Vec3f correction_gamma(Vec3f c) {
-	c.x = pow(c.x, 1.0 / 2.0);
+	/*c.x = pow(c.x, 1.0 / 2.0);
 	c.y = pow(c.y, 1.0 / 2.0);
-	c.z = pow(c.z, 1.0 / 2.0);
+	c.z = pow(c.z, 1.0 / 2.0);*/
 	return c;
 }
 
@@ -91,14 +91,14 @@ int main(int argc, char *argv[])
 {
     //Model *obj = new Model("D:/Documents/vision/course/smallRasterizer/obj/xier/xierbody.obj");
 
-	const Vec3f camera(1, 0, 4);	// camera position
-	Vec3f light(0, 0, 5);
+	const Vec3f camera(1, 0, 400);	// camera position
+	Vec3f light(-5, 10, 5);
 	Vec3f target(0, 0, 0);
 
-	float fov = 60;
+	float fov = 45;
 	float aspect = 1;
 	float near = -0.1, far = -50;
-	float angle = 180.f;
+	float angle = 135.f;// 180.f
 	Vec3f up(0, 1, 0);
 	
 	Matrix4f m_projection = projection(fov, aspect, near, far);
@@ -111,7 +111,8 @@ int main(int argc, char *argv[])
 	Matrix4f m_ortho_projection = ortho_projection(-2, 2, -2, 2, near, far);
 	Matrix4f lightmvp = m_ortho_projection * m_view_light * m_model;
 
-	phong_texture_shader shader;
+	bump_shader shader;
+	//pbr_shader shader;
 	shader.payload.mvp = mvp;
 	shader.payload.m_model = m_model;
 	shader.payload.m_viewport = m_viewport;
@@ -137,10 +138,7 @@ int main(int argc, char *argv[])
     }*/
 
 	std::vector<Model*> objs;
-	objs.push_back(new Model("D:/Documents/vision/course/smallRasterizer/asset/gun/Cerberus.obj"));
-	//objs.push_back(new Model("D:/Documents/vision/course/smallRasterizer/obj/fuhua/fuhuahair.obj"));
-	//objs.push_back(new Model("D:/Documents/vision/course/smallRasterizer/obj/fuhua/fuhuacloak.obj"));
-	//objs.push_back(new Model("D:/Documents/vision/course/smallRasterizer/obj/fuhua/fuhuabody.obj"));
+	objs.push_back(new Model("D:/Documents/vision/course/smallRasterizer/asset/horse/horse.obj"));
 	int cnt = 0;
 	for (auto obj : objs) {
 		shader.payload.obj = obj;
@@ -149,10 +147,10 @@ int main(int argc, char *argv[])
 			for (int j = 0; j < 3; j++) {
 				v[j] = shader.vertex(i, j);
 			}
-			if (!backCulling(shader.payload.ndcCoord[0], shader.payload.ndcCoord[1], shader.payload.ndcCoord[2])) {
+			//if (!backCulling(shader.payload.ndcCoord[0], shader.payload.ndcCoord[1], shader.payload.ndcCoord[2])) {
 				triangle(v, shader, frame, zbuffer);
-				cnt++;
-			}
+				//cnt++;
+			//}
 		}
 	}
 	std::cout << cnt << std::endl;

@@ -90,7 +90,7 @@ struct pbr_shader : public Shader {
         Vec3f H = (V + L).normalize();
         float NdotL = std::max(dot(N, L), 0.f);
 
-        Vec3f radiance(1.f, 1.f, 1.f);
+        Vec3f radiance(5.f, 5.f, 5.f);
 
         float NDF = DistributionGGX(N, H, roughness);
         float G = GeometrySmith(N, V, L, roughness);
