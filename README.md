@@ -20,17 +20,7 @@ make
 ```
 
 ## Results
-<center><img src="results/texture.png"></center>
-<center><p>Texture mapping</p></center>
-
-<center><img src="results/phong.png"></center>
-<center><p>Blinn-Phong mapping</p></center>
-
-<center><img src="results/bump.png"></center>
-<center><p>Bump mapping</p></center>
-
-<center><img src="results/pbr.png"></center>
-<center><p>PBR</p></center>
+<center><img src="results/all.png"></center>
 
 
 ## Acknowledgement
